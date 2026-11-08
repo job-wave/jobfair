@@ -28,7 +28,8 @@ el("view").addEventListener("click",async()=>{
  rows=result.rows||[];columns=result.columns||[];
  const programColumns=columns.filter(([key])=>key.startsWith("program_"));
  renderProgramSummary(programColumns);
- const visibleColumns=[...programColumns,...columns.filter(([key])=>!key.startsWith("program_"))];
+ const visibleColumns=[...programColumns,...columns.filter(([key])=>!key.startsWith("program_"))]
+   .filter(([key])=>rows.some(row=>scoreByAnswer.has(row.ratings?.[key])));
  const heads=["제출시각","이름",...visibleColumns.map(c=>c[1]),"기타 의견"];
  el("total").textContent="응답 총 "+rows.length+"건";
  const cells=rows.map(x=>[x.created_at,x.name,...visibleColumns.map(c=>x.ratings?.[c[0]]||""),x.comment||""]);
